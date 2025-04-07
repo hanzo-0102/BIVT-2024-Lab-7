@@ -44,13 +44,13 @@ namespace Lab_7
 
         public class HumanResponse : Response
         {
-            private string lastName;
+            private string surName;
 
-            public string LastName => lastName;
+            public string Surname => surName;
 
             public HumanResponse(string name, string lastName) : base(name)
             {
-                this.lastName = lastName;
+                this.surName = lastName;
             }
 
             public override int CountVotes(Response[] responses)
@@ -70,7 +70,7 @@ namespace Lab_7
 
             public override void Print()
             {
-                Console.WriteLine($"Имя - {Name},\nИмя - {LastName},\nГолоса - {Votes};");
+                Console.WriteLine($"Имя - {Name},\nИмя - {Surname},\nГолоса - {Votes};");
             }
         }
 

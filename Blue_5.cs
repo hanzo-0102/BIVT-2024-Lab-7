@@ -173,7 +173,7 @@ namespace Lab_7
             }
         }
 
-        public abstract class ManTeam: Team
+        public class ManTeam: Team
         {
             public ManTeam(string name): base(name) { }
 
@@ -189,7 +189,7 @@ namespace Lab_7
             }
         }
 
-        public abstract class WomanTeam : Team
+        public class WomanTeam : Team
         {
             public WomanTeam(string name) : base(name) { }
 
