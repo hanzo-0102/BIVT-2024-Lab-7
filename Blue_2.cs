@@ -155,7 +155,7 @@ namespace Lab_7
 
             public void Add(Participant[] participants)
             {
-                for (int i = 0; i < this.participants.Length; i++)
+                for (int i = 0; i < participants.Length; i++)
                 {
                     Add(participants[i]);
                 }

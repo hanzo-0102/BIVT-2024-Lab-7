@@ -55,10 +55,10 @@ namespace Lab_7
                     {
                         if (penaltyTimes[i] == 10)
                         {
-                            return false;
+                            return true;
                         }
                     }
-                    return true;
+                    return false;
                 }
             }
 
@@ -72,7 +72,7 @@ namespace Lab_7
 
             public virtual void PlayMatch(int time)
             {
-                if ((time != 0 && time != 2 && time != 5 && time != 10) || penaltyTimes == null || matchCount < 0)
+                if (penaltyTimes == null || matchCount < 0)
                 {
                     return;
                 }
@@ -87,7 +87,7 @@ namespace Lab_7
 
             public static void Sort(Participant[] array)
             {
-                if (array.Length == 0) return;
+                if (array.Length == 0 || array == null) return;
                 for (int i = 0; i < array.Length; i++)
                 {
                     for (int j = 0; j < array.Length - i - 1; j++)
@@ -121,20 +121,28 @@ namespace Lab_7
         {
             public BasketballPlayer(string name, string surname) : base(name, surname)
             {
+                this.penaltyTimes = new int[0];
             }
 
             public override bool IsExpelled
             {
                 get
                 {
+                    if (penaltyTimes == null || penaltyTimes.Length == 0) return false;
                     int matches = penaltyTimes.Length;
                     int bans = 0;
-                    for (int i = 0; i < matches; i++)
+                    for (int i = 0; i < penaltyTimes.Length; i++)
                     {
-                        bans += penaltyTimes[i];
+                        if (penaltyTimes[i] >= 5)
+                        {
+                            bans++;
+                        }
                     }
-
-                    return matches > 0 && (penaltyTimes.Count(time => time == 5) > matches * 0.1 || bans > matches * 2);
+                    if (bans * 100 / penaltyTimes.Length > 10 || Total > 2 * penaltyTimes.Length)
+                    {
+                        return true;
+                    }
+                    return false;
                 }
             }
 
@@ -142,12 +150,7 @@ namespace Lab_7
             {
                 if (bans < 0 || bans > 5) return;
 
-                int[] newPenaltyTimes = new int[penaltyTimes.Length + 1];
-
-                penaltyTimes.CopyTo(newPenaltyTimes, 0);
-                newPenaltyTimes[penaltyTimes.Length] = bans;
-
-                penaltyTimes = newPenaltyTimes;
+                base.PlayMatch(bans);
             }
         }
 
@@ -158,6 +161,7 @@ namespace Lab_7
 
             public HockeyPlayer(string name, string surname) : base(name, surname)
             {
+                this.penaltyTimes = new int[0];
                 totalPlayers++;
             }
 
@@ -165,14 +169,25 @@ namespace Lab_7
             {
                 get
                 {
-                    double avg = totalPlayers > 0 ? totalPenaltyTime / (double)totalPlayers : 0;
-                    return penaltyTimes.Any(time => time == 10) || Total > (avg / 10);
+                    if (penaltyTimes == null || penaltyTimes.Length == 0) return false;
+                    for (int i = 0; i < penaltyTimes.Length; i++)
+                    {
+                        if (penaltyTimes[i] >= 10)
+                        {
+                            return true;
+                        }
+                    }
+                    if (Total > totalPenaltyTime / totalPlayers / 10.0)
+                    {
+                        return true;
+                    }
+                    return false;
                 }
             }
 
             public override void PlayMatch(int time)
             {
-                if ((time != 0 && time != 2 && time != 5 && time != 10) || penaltyTimes == null)
+                if (time > 10 || time < 0 || penaltyTimes == null)
                 {
                     return;
                 }

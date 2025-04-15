@@ -24,6 +24,7 @@ namespace Lab_7
 
             public virtual int CountVotes(Response[] responses)
             {
+                if (responses == null ||  responses.Length <= 0) return 0;
                 int count = 0;
                 for (int i = 0; i < responses.Length; i++)
                 {
@@ -55,11 +56,12 @@ namespace Lab_7
 
             public override int CountVotes(Response[] responses)
             {
+                if (responses == null || responses.Length <= 0) return 0;
                 int count = 0;
                 for (int i = 0; i < responses.Length; i++)
                 {
                     HumanResponse humanResponse = responses[i] as HumanResponse;
-                    if (humanResponse != null && humanResponse.Name == this.Name)
+                    if (humanResponse != null && humanResponse.Name == this.Name && humanResponse.Surname == this.surName)
                     {
                         count++;
                     }
